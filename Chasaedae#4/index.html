@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<head>
+<style type="text/css">
+table,tr,td,th
+{
+border:1px solid black;
+}
+table
+{
+width:30%;
+}
+th
+{
+background-color:white;
+color:black;
+}
+</style>
+  <title>Student Info</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script id="dynamic"></script>
+<script type="text/javascript">
+
+  function getXML()
+  {
+// DOM 객체 선언
+  var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+  // 동기화 여부
+  xmlDoc.async = false;
+  // 로드 XML 파일 명
+  xmlDoc.load("student.xml");
+  // 엘리먼트 name 선언
+  var xmlNode = xmlDoc.getElementsByTagName("STUDENT");
+ 
+  var i;
+
+	//TABLE WRITE
+	document.write("<table>");
+		
+		var x=xmlDoc.getElementsByTagName("STUDENT");
+	 	
+	//TABLE HEADER
+	 	document.write("<tr><th>");
+		document.write("Name");
+		document.write("</th><th>");
+		document.write("Age");
+		document.write("</th><th>");
+		document.write("&nbsp;&nbsp;ID");
+		document.write("</th><th>");
+		document.write("Sex");
+		document.write("</th><th>");
+		document.write("Address");
+		document.write("</th></tr>");
+		
+	//TABLE CONTENT
+  for(i=0;i<xmlNode.length;i++)
+  {
+			document.write("<tr><td>");
+			document.write(xmlNode[i].getElementsByTagName("NAME")[0].childNodes[0].nodeValue);
+			document.write("</td><td>");
+			document.write(xmlNode[i].getElementsByTagName("AGE")[0].childNodes[0].nodeValue);
+			document.write("</td><td>");
+			document.write(xmlNode[i].getElementsByTagName("IDNUM")[0].childNodes[0].nodeValue);
+			document.write("</td><td>");
+			document.write(xmlNode[i].getElementsByTagName("SEX")[0].childNodes[0].nodeValue);
+			document.write("</td><td>");
+			document.write(xmlNode[i].getElementsByTagName("ADDRESS")[0].childNodes[0].nodeValue);
+			document.write("</td></tr>");
+  }
+	document.write("</table>");
+	//TABLE 
+}
+
+getXML();
+
+function radioCallback(id)
+{
+   if(id == "search")
+   {
+	$('#searchForm').prop('disabled', false);
+	$('#insertForm').prop('disabled', true);
+	$('#deleteForm').prop('disabled', true);
+	$('#updateForm').prop('disabled', true);
+
+   }
+   else if(id == "insert")
+   {
+	$('#searchForm').prop('disabled', true);
+	$('#insertForm').prop('disabled', false);
+	$('#deleteForm').prop('disabled', true);
+	$('#updateForm').prop('disabled', true);
+
+   }
+   else if(id == "update")
+   {
+	$('#searchForm').prop('disabled', true);
+	$('#insertForm').prop('disabled', true);
+	$('#deleteForm').prop('disabled', true);
+	$('#updateForm').prop('disabled', false);;
+
+   }
+   else if(id == "delete")
+   {
+	$('#searchForm').prop('disabled', true);
+	$('#insertForm').prop('disabled', true);
+	$('#deleteForm').prop('disabled', false);
+	$('#updateForm').prop('disabled', true);
+		
+   }
+}
+
+
+</script>
+
+</head>
+<body>
+
+<div class="container">
+  <h2>학생 정보 관리</h2>
+  <p>동작 방법을 설정해주세요.</p>
+  <form id="mehtod" role="form">
+    <div class="radio">
+      <label><input id="search" type="radio" name="optradio" onClick="radioCallback('search')">검색</label>
+    </div>
+    <div class="radio">
+      <label><input id="insert" type="radio" name="optradio" onClick="radioCallback('insert')">삽입</label>
+    </div>
+    <div class="radio">
+      <label><input id="delete" type="radio" name="optradio" onClick="radioCallback('delete')">삭제</label>
+    </div>
+	<div class="radio">
+	  <label><input id="update" type="radio" name="optradio" onClick="radioCallback('update')">수정</label>
+	</div>
+  </form>
+
+   <p>검색정보를 입력해주세요.</p>
+		<form id="searchForm" action="search.php" method="post" disabled>
+		이름&nbsp;<input type="text" id="name" name="name"><br>
+		<input type="submit" value="검색">
+		</form>
+
+		<p>삽입정보를 입력해주세요.</p>
+		<form id="insertForm" action="insert.php" method="post" disabled>
+		이름&nbsp;<input type="text" id="name" name="name" ><br>
+		나이&nbsp;<input type="text" id="age" name="age"><br>
+		ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="idNum" name="idNum"><br>
+		성별&nbsp;<input type="text" id="sex" name="sex"><br>
+		주소&nbsp;<input type="text" id="address" name="address"><br>
+		<input type="submit" value="삽입" >
+		</form>
+
+		<p>삭제정보를 입력해주세요.</p>
+		<form id="deleteForm" action="delete.php" method="post" disabled>
+		이름&nbsp;<input type="text" id="name" name="name" ><br>
+		<input type="submit" value="삭제" >
+		</form>
+
+		<p>수정정보를 입력해주세요.</p>
+		<form id="updateForm" action="update.php" method="post" disabled>
+		이름&nbsp;<input type="text" id="name" name="name" ><br>
+		나이&nbsp;<input type="text" id="age" name="age"><br>
+		ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="idNum" name="idNum"><br>
+		성별&nbsp;<input type="text" id="sex" name="sex"><br>
+		주소&nbsp;<input type="text" id="address" name="address"><br>
+		<input type="submit" value="수정" >
+		</form>
+</div>
+
+</body>
+</html>
+
